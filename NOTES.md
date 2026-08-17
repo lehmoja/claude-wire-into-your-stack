@@ -10,8 +10,11 @@ The repeated way of working: whenever someone wants a rundown of the project's d
 
 Description: "Use the filesystem MCP server to list the project's docs folder, sorted by last-modified date, descending." Worded around the concrete action (list docs, sorted by date) rather than a vague topic, so it fires on phrasing like "what documents exist in this project, newest first" without naming the skill — confirmed this triggers correctly.
 
+## Skill
+Also added `.claude/skills/images/SKILL.md` — an `/images` skill that lists image files in `docs/` (`.png`, `.jpg`, `.jpeg`, `.gif`, `.svg`, `.webp`), reading each one with the `Read` tool to write a short one-line description of what it shows. Mirrors `open_docs_folder`'s structure. Tested against `docs/claude-mcp-servers.jpg`, correctly described as a sequence diagram of Claude Desktop querying a CSV file through an MCP server. That image was previously untracked; it's now committed too, so the skill has something to find in a fresh clone.
+
 ## Command
-Added `.claude/skills/images/SKILL.md` — an `/images` skill that lists image files in `docs/` (`.png`, `.jpg`, `.jpeg`, `.gif`, `.svg`, `.webp`), reading each one with the `Read` tool to write a short one-line description of what it shows. Mirrors `open_docs_folder`'s structure. Tested against `docs/claude-mcp-servers.jpg`, correctly described as a sequence diagram of Claude Desktop querying a CSV file through an MCP server. That image was previously untracked; it's now committed too, so the skill has something to find in a fresh clone.
+Added `.claude/commands/imagelist.md` — a `/imagelist` command that runs the same "list `docs/` images with a one-line description" prompt on demand, rather than waiting for the skill to auto-fire. Worth a shortcut because it's a quick one-off check you'd run explicitly ("what images do we have?") without needing to phrase a request that happens to match the skill's trigger. Ran it once against `docs/claude-mcp-servers.jpg` and got the same correct description as the skill. Originally named `images`, renamed to `imagelist` to avoid colliding with the skill of the same name.
 
 ## Hook
 `PostToolUse` on matcher `Edit|Write` in `.claude/settings.json`: runs `eslint --fix` on the edited file if it's a `.js` file outside `node_modules`. It reacts rather than prevents — it doesn't block the edit, it cleans up after it, so every JS edit stays lint-clean automatically for anyone who pulls the repo.
