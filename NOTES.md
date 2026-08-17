@@ -19,5 +19,8 @@ Added `.claude/commands/imagelist.md` — a `/imagelist` command that runs the s
 ## Hook
 `PostToolUse` on matcher `Edit|Write` in `.claude/settings.json`: runs `eslint --fix` on the edited file if it's a `.js` file outside `node_modules`. It reacts rather than prevents — it doesn't block the edit, it cleans up after it, so every JS edit stays lint-clean automatically for anyone who pulls the repo.
 
+## CI
+`.github/workflows/ci.yml` has never actually run — `gh api repos/.../actions/runs` shows `total_count: 0` despite the workflow being committed since June and several pushes to `main` since. Checked `actions/permissions` (enabled, `allowed_actions: all`) and the workflow list (`state: active`), both looked fine, so it wasn't an obvious config error. The real cause: `gh api repos/lehmoja/claude-wire-into-your-stack` shows `"fork": true`, parent `mate-academy/claude-wire-into-your-stack` — GitHub disables Actions by default on forked repos, and it was never turned on for this fork in Settings → Actions → General. Not something fixable from the repo's committed files; needs a manual toggle on GitHub.
+
 ## Headless run
 Not yet done.
