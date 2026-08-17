@@ -11,7 +11,7 @@ The repeated way of working: whenever someone wants a rundown of the project's d
 Description: "Use the filesystem MCP server to list the project's docs folder, sorted by last-modified date, descending." Worded around the concrete action (list docs, sorted by date) rather than a vague topic, so it fires on phrasing like "what documents exist in this project, newest first" without naming the skill — confirmed this triggers correctly.
 
 ## Command
-Not yet added.
+Added `.claude/skills/images/SKILL.md` — an `/images` skill that lists image files in `docs/` (`.png`, `.jpg`, `.jpeg`, `.gif`, `.svg`, `.webp`), reading each one with the `Read` tool to write a short one-line description of what it shows. Mirrors `open_docs_folder`'s structure. Tested against `docs/claude-mcp-servers.jpg`, correctly described as a sequence diagram of Claude Desktop querying a CSV file through an MCP server.
 
 ## Hook
 `PostToolUse` on matcher `Edit|Write` in `.claude/settings.json`: runs `eslint --fix` on the edited file if it's a `.js` file outside `node_modules`. It reacts rather than prevents — it doesn't block the edit, it cleans up after it, so every JS edit stays lint-clean automatically for anyone who pulls the repo.
